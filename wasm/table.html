@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple template</title>
+  </head>
+  <body>
+    <script>
+      fetch('table.wasm')
+	.then(res => res.arrayBuffer())
+	.then(bytes => WebAssembly.instantiate(bytes))
+	.then(rst => {
+	  var tbl = rst.instance.exports.tbl
+	  console.log(tbl.get(0)())
+	  console.log(tbl.get(1)())
+	})
+    </script>    
+  </body>
+</html>
