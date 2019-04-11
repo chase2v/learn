@@ -21,9 +21,22 @@ int main(int argc, char* argv[])
 	}
 
 	audio_buf = (Unit8*)malloc(BLOCK_SIZE);
+	if (!audio_buf) {
+		SDL_Log("Failed to alloc memory!");
+		goto __FAIL;
+	}
 
 __FAIL:
+	if (audio_buf) {
+		free(audio_buf);
+	}
+
+	if (audio_fd) {
+		fclose(audio_fd);
+	}
+
 	SDL_Quit();
 
 	return 0;
 }
+
