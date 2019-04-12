@@ -12,6 +12,11 @@ int main(int argc, char *argv[])
 		numbers[2],
 		numbers[3]);
 
+	printf("The first char of numbers: %c", numbers[0]);
+	printf("The second char of numbers: %c", numbers[1]);
+	printf("The third char of numbers: %c", numbers[2]);
+	printf("The fourth char of numbers: %c", numbers[3]);
+
 	printf("name each: %c %c %c %c\n",
 		name[0],
 		name[1],
