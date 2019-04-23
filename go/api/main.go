@@ -10,6 +10,8 @@ func RegisterHandlers() *httprouter.Router {
 
 	router.POST("/user", CreateUser)
 
+	router.POST("/user/:user_name", Login)
+
 	return router
 }
 
