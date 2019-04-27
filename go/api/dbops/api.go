@@ -2,7 +2,7 @@ package dbops
 
 import (
 	"database/sql"
-	"github.com/go-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 )
 
 func openConn() *sql.DB {
