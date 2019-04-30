@@ -5,20 +5,54 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-func openConn() *sql.DB {
-	dbConn, err := sql.Open("mysql", "root:wangchen18606632@#@tcp(localhost:3306)/video_server?charset=utf8")
+func AddUserCredentital(loginName string, pwd string) error {
+	stmtIns, err := dbConn.Prepare("INSERT INTO users (login_name, pwd) VALUES (?, ?)")
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 
-	return dbConn
-}
+	_, err = stmtIns.Exec(loginName, pwd)
+	if err != nil {
+		return err
+	}
 
-func AddUserCredentital(loginName string, pwd string) error {
-	db := openConn()
+	defer stmtIns.Close()
+
+	return nil
 }
 
 func GetUserCredential(loginName string) (string, error) {
-	db := openConn()
+	stmtOut, err := dbConn.Prepare("SELECT pwd FROM users WHERE login_name = ?")
+	if err != nil {
+		log.Printf("%s", err)
+		return "", err
+	}
+
+	var pwd string
+	err = stmtOut.QueryRow(loginName).Scan(&pwd)
+	if err != nil && err != sql.ErrNoRows {
+		return "", err
+	}
+
+	defer stmtOut.Close()
+
+	return pwd, nil
+}
+
+func DeleteUser(loginName string, pwd string) error {
+	stmtDel, err := dbConn.Prepare("DELETE FROM users WHERE login_name=? AND pwd=?")
+	if err != nil {
+		log.Printf("", err)
+		return err
+	}
+
+	_, err = stmtDel.Exec(loginName, pwd)
+	if err != nil {
+		return err
+	}
+
+	defer stmtDel.CLose()
+
+	return nil
 }
 
